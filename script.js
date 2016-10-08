@@ -1,6 +1,7 @@
 var total = 0;
 var calculatorString = "0";
-var currentOperation ;
+var currentOperation;
+var currentNumber = "";
 
 $('button').click(function() {
     if(this.value == "clear") {
@@ -11,8 +12,6 @@ $('button').click(function() {
         calculatorString += this.value;
         $("#result").text(calculatorString);
     } else if(this.value == "=") {
-        console.log(currentOperation);
-        console.log(total);
         performCalculation();
         total = 0;
         calculatorString = "";
@@ -24,7 +23,15 @@ $('button').click(function() {
             $("#result").text(currentOperation);
             calculatorString = "";
         } else {
-            alert("Current Op is not null!");
+            if(currentNumber != null) {
+                currentOperation = this.value;
+                performCalculation()
+            } else {
+                currentOperation = this.value;
+                currentNumber = calculatorString;
+            }
+            $("#result").text(currentOperation);
+            calculatorString = "";
         }
     }
 });
@@ -32,18 +39,23 @@ $('button').click(function() {
 function performCalculation() {
     switch(currentOperation) {
         case "*":
+            console.log(total + " is being multiplied by " + calculatorString);
             total *= Number(calculatorString);
             break;
         case "-":
-            total -= Number(calculatorString);
+            console.log(total + " minus " + calculatorString);
+            total = total - Number(calculatorString);
             break;
         case "+":
+            console.log(total + " plus " + calculatorString);
             total += Number(calculatorString);
             break;
         case "/":
+            console.log(total + " divided by " + calculatorString);
             total /= Number(calculatorString);
             break;
     }
-    console.log(total);
+
+    console.log("Current total: " + total);
     $("#result").text(total);
 }

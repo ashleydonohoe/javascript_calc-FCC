@@ -1,27 +1,49 @@
 var total = 0;
 var calculatorString = "0";
-var currentOperation =  "";
+var currentOperation ;
 
 $('button').click(function() {
     if(this.value == "clear") {
         total = 0;
-        calculatorString = "0";
-        $("#result").text(calculatorString);
-    } else if(Number(this.value)) {
+        calculatorString = "";
+        $("#result").text(0);
+    } else if(Number(this.value) || this.value == ".") {
         calculatorString += this.value;
         $("#result").text(calculatorString);
     } else if(this.value == "=") {
-        switch(currentOperation) {
-            // Convert current calc string to number
-            // Use case statement against current operation based on sign
-            // Do operation against current calc string and existing total
-        }
+        console.log(currentOperation);
+        console.log(total);
+        performCalculation();
+        total = 0;
+        calculatorString = "";
+        currentOperation = "";
     } else {
-        total = Number(calculatorString)
-        console.log(this.value);
-        console.log("Current total: " + total);
-        currentOperation = this.value;
-        $("#result").text(currentOperation);
-        calculatorString = ""
+        if(currentOperation == null) {
+            total = Number(calculatorString);
+            currentOperation = this.value;
+            $("#result").text(currentOperation);
+            calculatorString = "";
+        } else {
+            alert("Current Op is not null!");
+        }
     }
 });
+
+function performCalculation() {
+    switch(currentOperation) {
+        case "*":
+            total *= Number(calculatorString);
+            break;
+        case "-":
+            total -= Number(calculatorString);
+            break;
+        case "+":
+            total += Number(calculatorString);
+            break;
+        case "/":
+            total /= Number(calculatorString);
+            break;
+    }
+    console.log(total);
+    $("#result").text(total);
+}
